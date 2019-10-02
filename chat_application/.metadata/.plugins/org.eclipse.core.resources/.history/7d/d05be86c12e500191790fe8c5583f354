@@ -1,0 +1,2 @@
+INSERT INTO user (benutzername, password)
+VALUES ('root', '');

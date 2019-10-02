@@ -1,0 +1,68 @@
+package ch.diogopocas.chatapp.service;
+
+import java.util.List;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Service;
+
+import ch.diogopocas.chatapp.domain.User;
+import ch.diogopocas.chatapp.repository.UserRepository;
+
+@Service
+public class UserService implements CommandLineRunner {
+	private UserRepository userRepository;
+	private Boolean isRoot = false;
+	
+	public UserService(UserRepository userRepository) {
+		this.userRepository = userRepository;
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+	/*
+		deleteAllUsers();
+
+		User rootUser = new User();
+		rootUser.setBenutzername("root");
+		rootUser.setPassword("");
+		
+		userRepository.findAll().forEach(u -> {
+			if (u.getBenutzername().equals(rootUser.getBenutzername())) {
+				isRoot = true;
+			}
+		});
+		
+		if (!isRoot) { userRepository.save(rootUser);
+*/
+	}
+
+	public void deleteAllUsers() {
+		userRepository.deleteAll();
+	}
+
+	public User createUser(User user) {
+		return userRepository.saveAndFlush(user);
+	}
+
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+
+	public void deleteUser(Long id) {
+		userRepository.deleteById(id);
+	}
+
+	public User updateUser(Long id, User user) {
+		if (userExistsById(id)) {
+			user.setUser_id(id);
+			return userRepository.saveAndFlush(user);
+		} else {
+			throw new RuntimeException("User with id " + id + " not found");
+		}
+	}
+
+	private boolean userExistsById(Long id) {
+		return userRepository.existsById(id);
+	}
+
+}
